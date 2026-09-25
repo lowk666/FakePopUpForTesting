@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Centro de Seguridad del Sistema</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e5e5e5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        button {
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #c9302c;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Activación de Seguridad Requerida</h2>
+    <p>Permite las notificaciones para desplegar las 20 alertas diferentes de análisis del sistema.</p>
+    <button onclick="requestNotifications()">Activar y Mostrar Alertas</button>
+</div>
+
+<script>
+function requestNotifications() {
+    if (!("Notification" in window)) {
+        alert("Este navegador no soporta notificaciones.");
+        return;
+    }
+
+    Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+            const alertas = [
+                { title: "McAfee: ¡Virus Detectado!", body: "Atención: Se ha encontrado un virus crítico en tu PC." },
+                { title: "Windows Defender", body: "Tus datos personales y archivos pueden ser borrados." },
+                { title: "Alerta de Sistema", body: "Haz clic aquí para escanear tu PC y remover la amenaza." },
+                { title: "Advertencia de Licencia", body: "Tu suscripción de seguridad ha expirado. Renueva ahora." },
+                { title: "Peligro: Troyano Activo", body: "Se detectó actividad sospechosa en puertos de red." },
+                { title: "Error Crítico de Windows", body: "Código de detención: CRITICAL_PROCESS_DIED." },
+                { title: "Alerta de Firewall", body: "Un programa no autorizado intentó acceder al sistema." },
+                { title: "Riesgo de Privacidad", body: "Se han encontrado cookies de rastreo maliciosas." },
+                { title: "Actualización Requerida", body: "Instala el parche de seguridad más reciente de inmediato." },
+                { title: "Aviso de Soporte Técnico", body: "Llama al número de asistencia para desbloquear el equipo." },
+                { title: "Phishing Detectado", body: "Un sitio web malicioso intentó robar tus credenciales." },
+                { title: "Advertencia de Memoria", body: "El sistema operativo reporta corrupción de búfer." },
+                { title: "Alerta de Red Insegura", body: "Estás conectado a una red Wi-Fi no confiable." },
+                { title: "Ransomware Detectado", body: "Intento de cifrado de archivos bloqueado parcialmente." },
+                { title: "Falla de Hardware", body: "El disco duro principal presenta sectores defectuosos." },
+                { title: "Certificado SSL Inválido", body: "La conexión con el servidor no es segura." },
+                { title: "Acceso Root Bloqueado", body: "Se detectaron privilegios de superusuario no autorizados." },
+                { title: "Escaneo Interrumpido", body: "Finaliza el análisis completo para asegurar tus carpetas." },
+                { title: "Aplicación Sospechosa", body: "Un proceso desconocido está consumiendo recursos en segundo plano." },
+                { title: "Alerta Final del Sistema", body: "Tu equipo está en riesgo extremo. Acción requerida urgente." }
+            ];
+
+            let count = 0;
+            const interval = setInterval(() => {
+                if (count >= 20) {
+                    clearInterval(interval);
+                    return;
+                }
+                const currentAlert = alertas[count];
+                new Notification(currentAlert.title, {
+                    body: currentAlert.body,
+                    icon: "https://img.icons8.com/color/48/windows-10.png"
+                });
+                count++;
+            }, 600);
+        } else {
+            alert("Se requieren permisos de notificación para continuar.");
+        }
+    });
+}
+</script>
+
+</body>
+</html>
